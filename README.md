@@ -29,6 +29,7 @@ definitions/
 includes/
 └── utils.js                  # Reusable JavaScript helpers (macros equivalent)
 docs/
+├── blueprint.md              # Design decisions and setup choices for replication
 └── rules.md                  # Team rules — naming, granularity, testing (NM01+)
 ```
 
@@ -48,6 +49,10 @@ docs/
 ## Conventions & rules
 
 See [`docs/rules.md`](docs/rules.md) for all team rules with codes, descriptions, and examples.
+
+## Blueprint
+
+See [`docs/blueprint.md`](docs/blueprint.md) for the design decisions and setup choices made in this project.
 
 ---
 
