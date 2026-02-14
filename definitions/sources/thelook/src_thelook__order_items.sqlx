@@ -1,0 +1,19 @@
+config {
+  type: "declaration",
+  database: "bigquery-public-data",
+  schema: "thelook_ecommerce",
+  description: "Raw order items table. One row per item within an order. Links orders to products and inventory.",
+  columns: {
+    id:                "Primary key. Unique identifier for each order item.",
+    order_id:          "Foreign key to the orders table.",
+    user_id:           "Foreign key to the users table.",
+    product_id:        "Foreign key to the products table.",
+    inventory_item_id: "Foreign key to the inventory_items table.",
+    status:            "Item-level fulfillment status: Complete, Cancelled, Returned, Processing, or Shipped.",
+    created_at:        "Timestamp when the order item was created.",
+    shipped_at:        "Timestamp when the item was shipped. NULL if not yet shipped.",
+    delivered_at:      "Timestamp when the item was delivered. NULL if not yet delivered.",
+    returned_at:       "Timestamp when the item was returned. NULL if not returned.",
+    sale_price:        "Actual price the item was sold at (may differ from retail_price due to discounts)."
+  }
+}

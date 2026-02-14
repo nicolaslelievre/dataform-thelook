@@ -1,0 +1,23 @@
+config {
+  type: "declaration",
+  database: "bigquery-public-data",
+  schema: "thelook_ecommerce",
+  description: "Raw users/customers table. One row per registered user.",
+  columns: {
+    id:             "Primary key. Unique identifier for each user.",
+    first_name:     "User's first name.",
+    last_name:      "User's last name.",
+    email:          "User's email address.",
+    age:            "User's age in years.",
+    gender:         "User's gender.",
+    state:          "State or region where the user is located.",
+    street_address: "User's street address.",
+    postal_code:    "User's postal/zip code.",
+    city:           "User's city.",
+    country:        "User's country.",
+    latitude:       "Geographic latitude of the user's address.",
+    longitude:      "Geographic longitude of the user's address.",
+    traffic_source: "Channel through which the user was acquired (e.g. Organic, Email, Search).",
+    created_at:     "Timestamp when the user account was created."
+  }
+}

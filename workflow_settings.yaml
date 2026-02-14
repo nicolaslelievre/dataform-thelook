@@ -1,0 +1,13 @@
+# Dataform project configuration
+# Equivalent to dbt_project.yml in dbt
+
+defaultProject: your-gcp-project     # TODO: replace with your GCP project ID
+defaultDataset: thelook_dataform      # fallback dataset if schema not overridden in model config
+defaultLocation: US
+dataformCoreVersion: 3.0.0
+
+# Runtime variables — pass at execution time with --vars flag
+# Example: dataform run --vars='{"env":"prod","execution_date":"2024-01-01"}'
+vars:
+  env: "dev"
+  execution_date: ""

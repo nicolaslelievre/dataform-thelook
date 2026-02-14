@@ -1,0 +1,17 @@
+config {
+  type: "declaration",
+  database: "bigquery-public-data",
+  schema: "thelook_ecommerce",
+  description: "Raw products catalog table. One row per product.",
+  columns: {
+    id:                     "Primary key. Unique identifier for each product.",
+    cost:                   "Cost of goods sold (COGS) for the product.",
+    category:               "Product category (e.g. Jeans, Swim, Accessories).",
+    name:                   "Product display name.",
+    brand:                  "Brand name of the product.",
+    retail_price:           "Standard retail price of the product.",
+    department:             "Department the product belongs to (e.g. Men, Women).",
+    sku:                    "Stock keeping unit identifier.",
+    distribution_center_id: "Foreign key to the distribution_centers table."
+  }
+}

@@ -1,0 +1,21 @@
+config {
+  type: "declaration",
+  database: "bigquery-public-data",
+  schema: "thelook_ecommerce",
+  description: "Raw website events table. One row per user event/interaction. Tracks the full clickstream funnel.",
+  columns: {
+    id:              "Primary key. Unique identifier for each event.",
+    user_id:         "Foreign key to the users table. NULL for anonymous sessions.",
+    sequence_number: "Order of events within a session.",
+    session_id:      "Groups events into a single browsing session.",
+    created_at:      "Timestamp when the event occurred.",
+    ip_address:      "IP address of the user at time of event.",
+    city:            "City derived from IP address.",
+    state:           "State derived from IP address.",
+    postal_code:     "Postal code derived from IP address.",
+    browser:         "Browser used (e.g. Chrome, Safari, Firefox).",
+    traffic_source:  "Acquisition channel for the session.",
+    uri:             "The URI/page path that was visited.",
+    event_type:      "Type of event: home, category, brand, product, cart, purchase, or cancel."
+  }
+}
