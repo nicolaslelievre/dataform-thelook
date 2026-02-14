@@ -13,6 +13,8 @@ Use this as a checklist when bootstrapping a new Dataform project.
 | 1 | [Node version pinned via nvm](#1-node-version-pinned-via-nvm) | Setup |
 | 2 | [Dataform CLI as local devDependency](#2-dataform-cli-as-local-devdependency) | Setup |
 | 3 | [workflow_settings.yaml over dataform.json](#3-workflow_settingsyaml-over-dataformjson) | Setup |
+| 4 | [Commit message linting via commitlint](#4-commit-message-linting-via-commitlint) | CI |
+
 ---
 
 ## Setup
@@ -70,4 +72,35 @@ vars:
 ```
 
 **Files:** `workflow_settings.yaml`
+
+---
+
+## CI
+
+### 4. Commit message linting via commitlint
+
+**What:** Every PR runs commitlint against all commits in the PR using the [wagoid/commitlint-github-action](https://github.com/wagoid/commitlint-github-action). Rules are defined in `commitlint.config.js` extending the [Conventional Commits](https://www.conventionalcommits.org) spec.
+
+**Why:** Consistent commit messages make the git log readable, enable automated changelog generation, and give reviewers a shared vocabulary. Enforcing it in CI ensures no one bypasses it locally. The wagoid action was chosen over running the CLI manually because it handles commit range detection, Node setup, and dependency installation internally — keeping the workflow minimal.
+
+**Commit format:**
+```
+type(optional scope): short description
+
+feat: add stg_thelook__orders staging model
+fix: correct join condition in int_orders__enriched
+docs: update blueprint with commitlint decision
+chore: bump dataform core to 3.1.0
+ci: add commitlint github action
+refactor: extract date logic to utils.js
+```
+
+**Allowed types:** `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `ci`, `perf`, `build`, `revert`
+
+**Key implementation details:**
+- Triggers on all `pull_request` events regardless of target branch — not just PRs to `main`
+- `fetch-depth: 0` is required so the action can access the full commit history to lint all commits in the PR, not just the tip
+- `@commitlint/cli` and `@commitlint/config-conventional` are kept in `devDependencies` so the rules can also be run locally (`npx commitlint --from HEAD~1`)
+
+**Files:** `commitlint.config.js`, `.github/workflows/commitlint.yml`
 
