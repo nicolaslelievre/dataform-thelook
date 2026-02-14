@@ -102,5 +102,16 @@ refactor: extract date logic to utils.js
 - `fetch-depth: 0` is required so the action can access the full commit history to lint all commits in the PR, not just the tip
 - `@commitlint/cli` and `@commitlint/config-conventional` are kept in `devDependencies` so the rules can also be run locally (`npx commitlint --from HEAD~1`)
 
+**Onboarding tip — warning mode:** When introducing commitlint to an existing team, consider making the check non-blocking first by adding `continue-on-error: true` to the job. This lets the CI surface violations as warnings without blocking PR merges, giving the team time to adopt the convention before it is enforced.
+
+```yaml
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # remove once the team is comfortable
+```
+
+Remove `continue-on-error` once the convention is well understood.
+
 **Files:** `commitlint.config.js`, `.github/workflows/commitlint.yml`
 
