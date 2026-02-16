@@ -1,12 +1,13 @@
--- Source declaration: maps the raw BigQuery table into the Dataform graph.
--- No SQL body needed — Dataform never materialises declarations.
--- The reference name is derived from the filename: src_thelook__orders
--- Usage in downstream models: ${ref("src_thelook__orders")}
+-- Source declaration for bigquery-public-data.thelook_ecommerce.orders
+-- File is prefixed src_thelook__ for organisation. The name field below
+-- sets both the BigQuery table reference and the Dataform ref() name.
+-- Usage in downstream models: ${ref("orders")}
 
 config {
   type: "declaration",
   database: "bigquery-public-data",
   schema: "thelook_ecommerce",
+  name: "orders",
   description: "Raw orders table from the thelook_ecommerce public dataset. One row per order.",
   columns: {
     order_id:     "Primary key. Unique identifier for each order.",

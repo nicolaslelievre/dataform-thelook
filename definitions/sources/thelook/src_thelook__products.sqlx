@@ -1,7 +1,10 @@
+-- Usage in downstream models: ${ref("products")}
+
 config {
   type: "declaration",
   database: "bigquery-public-data",
   schema: "thelook_ecommerce",
+  name: "products",
   description: "Raw products catalog table. One row per product.",
   columns: {
     id:                     "Primary key. Unique identifier for each product.",

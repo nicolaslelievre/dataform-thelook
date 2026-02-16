@@ -34,17 +34,33 @@ Rules governing how files and models are named across all layers.
 
 **Description**
 
-Source declaration files must be prefixed with `src_`, followed by the source system name, a double underscore (`__`), and the raw table name in snake_case. The Dataform reference name (used in `${ref(...)}`) is derived from the filename — no `name:` override in the config block.
+Source declaration files must be prefixed with `src_`, followed by the source system name, a double underscore (`__`), and the raw table name in snake_case. The prefix is a **file organisation convention only**.
 
-The `src_` prefix makes sources immediately identifiable in the DAG and avoids name collisions with downstream models that share a similar entity name.
+In Dataform, the `name:` field in the declaration config controls both the BigQuery table it resolves to and the `ref()` name used in downstream models. The `src_thelook__` prefix must not be used as the `name:` value — it must be set to the actual BigQuery table name (e.g. `name: "orders"`).
+
+```sqlx
+config {
+  type: "declaration",
+  database: "bigquery-public-data",
+  schema: "thelook_ecommerce",
+  name: "orders",             -- actual BQ table name + ref() name
+  ...
+}
+```
+
+Downstream models reference sources using the raw table name:
+```
+${ref("orders")}              -- correct
+${ref("src_thelook__orders")} -- wrong, table does not exist in BQ
+```
 
 **Examples**
 
 ```
-# Good
-src_thelook__orders.sqlx
-src_thelook__order_items.sqlx
-src_thelook__distribution_centers.sqlx
+# Good — file uses src_thelook__ prefix, config name is raw table name
+src_thelook__orders.sqlx           (name: "orders")
+src_thelook__order_items.sqlx      (name: "order_items")
+src_thelook__distribution_centers.sqlx  (name: "distribution_centers")
 
 # Bad — missing src_ prefix
 orders.sqlx
@@ -53,8 +69,8 @@ thelook_orders.sqlx
 # Bad — single underscore between source and table
 src_thelook_orders.sqlx
 
-# Bad — source system not included
-src__orders.sqlx
+# Bad — name: in config set to prefixed filename
+name: "src_thelook__orders"   -- resolves to non-existent BQ table
 ```
 
 ---

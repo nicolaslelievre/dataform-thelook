@@ -1,7 +1,10 @@
+-- Usage in downstream models: ${ref("users")}
+
 config {
   type: "declaration",
   database: "bigquery-public-data",
   schema: "thelook_ecommerce",
+  name: "users",
   description: "Raw users/customers table. One row per registered user.",
   columns: {
     id:             "Primary key. Unique identifier for each user.",
