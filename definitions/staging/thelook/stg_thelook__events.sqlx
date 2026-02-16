@@ -25,7 +25,7 @@ config {
 }
 
 SELECT
-  id                       AS event_id,
+  id AS event_id,
   user_id,
   sequence_number,
   session_id,
