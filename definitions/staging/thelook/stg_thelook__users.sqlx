@@ -1,0 +1,46 @@
+config {
+  type: "view",
+  schema: "staging",
+  tags: ["staging", "thelook"],
+  description: "Cleaned and standardised users. One row per user. Direct 1-to-1 with the source table. No joins.",
+  columns: {
+    user_id:        "Primary key. Renamed from id.",
+    first_name:     "User's first name.",
+    last_name:      "User's last name.",
+    email:          "User's email address.",
+    age:            "User's age in years.",
+    gender:         "Normalised gender (lowercase).",
+    state:          "State or region where the user is located.",
+    street_address: "User's street address.",
+    postal_code:    "User's postal/zip code.",
+    city:           "User's city.",
+    country:        "User's country.",
+    latitude:       "Geographic latitude of the user's address.",
+    longitude:      "Geographic longitude of the user's address.",
+    traffic_source: "Normalised acquisition channel (lowercase).",
+    created_at:     "Timestamp when the user account was created."
+  },
+  assertions: {
+    uniqueKey: ["user_id"],
+    nonNull:   ["user_id", "email", "created_at"]
+  }
+}
+
+SELECT
+  id               AS user_id,
+  first_name,
+  last_name,
+  email,
+  age,
+  LOWER(gender)         AS gender,
+  state,
+  street_address,
+  postal_code,
+  city,
+  country,
+  latitude,
+  longitude,
+  LOWER(traffic_source) AS traffic_source,
+  created_at
+
+FROM ${ref("users")}

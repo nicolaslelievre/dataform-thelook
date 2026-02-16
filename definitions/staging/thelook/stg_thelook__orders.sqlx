@@ -1,0 +1,44 @@
+config {
+  type: "view",
+  schema: "staging",
+  tags: ["staging", "thelook"],
+  description: "Cleaned and standardised orders. One row per order. Direct 1-to-1 with the source table. No joins.",
+  columns: {
+    order_id:     "Primary key.",
+    user_id:      "Foreign key to stg_thelook__users.",
+    status:       "Normalised order status (lowercase): complete, cancelled, returned, processing, shipped.",
+    gender:       "Normalised gender associated with the order (lowercase).",
+    created_at:   "Timestamp when the order was placed.",
+    returned_at:  "Timestamp when the order was returned. NULL if not returned.",
+    shipped_at:   "Timestamp when the order was shipped. NULL if not shipped.",
+    delivered_at: "Timestamp when the order was delivered. NULL if not delivered.",
+    num_of_item:  "Total number of items in the order.",
+    is_completed: "TRUE when status = complete.",
+    is_returned:  "TRUE when returned_at is not null.",
+    is_cancelled: "TRUE when status = cancelled.",
+    is_shipped:   "TRUE when shipped_at is not null."
+  },
+  assertions: {
+    uniqueKey: ["order_id"],
+    nonNull:   ["order_id", "user_id", "status", "created_at"]
+  }
+}
+
+SELECT
+  order_id,
+  user_id,
+  LOWER(status)  AS status,
+  LOWER(gender)  AS gender,
+  created_at,
+  returned_at,
+  shipped_at,
+  delivered_at,
+  num_of_item,
+
+  -- Boolean convenience flags
+  status = 'Complete'     AS is_completed,
+  returned_at IS NOT NULL AS is_returned,
+  status = 'Cancelled'    AS is_cancelled,
+  shipped_at IS NOT NULL  AS is_shipped
+
+FROM ${ref("orders")}

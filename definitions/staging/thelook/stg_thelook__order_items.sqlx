@@ -1,0 +1,46 @@
+config {
+  type: "view",
+  schema: "staging",
+  tags: ["staging", "thelook"],
+  description: "Cleaned and standardised order items. One row per order item. Direct 1-to-1 with the source table. No joins.",
+  columns: {
+    order_item_id:     "Primary key. Renamed from id.",
+    order_id:          "Foreign key to stg_thelook__orders.",
+    user_id:           "Foreign key to stg_thelook__users.",
+    product_id:        "Foreign key to stg_thelook__products.",
+    inventory_item_id: "Foreign key to stg_thelook__inventory_items.",
+    status:            "Normalised item status (lowercase): complete, cancelled, returned, processing, shipped.",
+    created_at:        "Timestamp when the order item was created.",
+    shipped_at:        "Timestamp when the item was shipped. NULL if not shipped.",
+    delivered_at:      "Timestamp when the item was delivered. NULL if not delivered.",
+    returned_at:       "Timestamp when the item was returned. NULL if not returned.",
+    sale_price:        "Actual price the item was sold at.",
+    is_returned:       "TRUE when returned_at is not null.",
+    is_shipped:        "TRUE when shipped_at is not null.",
+    is_delivered:      "TRUE when delivered_at is not null."
+  },
+  assertions: {
+    uniqueKey: ["order_item_id"],
+    nonNull:   ["order_item_id", "order_id", "user_id", "status", "created_at"]
+  }
+}
+
+SELECT
+  id                      AS order_item_id,
+  order_id,
+  user_id,
+  product_id,
+  inventory_item_id,
+  LOWER(status)           AS status,
+  created_at,
+  shipped_at,
+  delivered_at,
+  returned_at,
+  sale_price,
+
+  -- Boolean convenience flags
+  returned_at IS NOT NULL AS is_returned,
+  shipped_at IS NOT NULL  AS is_shipped,
+  delivered_at IS NOT NULL AS is_delivered
+
+FROM ${ref("order_items")}

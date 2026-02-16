@@ -1,0 +1,24 @@
+config {
+  type: "view",
+  schema: "staging",
+  tags: ["staging", "thelook"],
+  description: "Cleaned and standardised distribution centers. One row per fulfillment center. Direct 1-to-1 with the source table. No joins.",
+  columns: {
+    distribution_center_id:   "Primary key. Renamed from id.",
+    distribution_center_name: "Name of the distribution center. Renamed from name to avoid ambiguity.",
+    latitude:                 "Geographic latitude of the distribution center.",
+    longitude:                "Geographic longitude of the distribution center."
+  },
+  assertions: {
+    uniqueKey: ["distribution_center_id"],
+    nonNull:   ["distribution_center_id", "distribution_center_name"]
+  }
+}
+
+SELECT
+  id   AS distribution_center_id,
+  name AS distribution_center_name,
+  latitude,
+  longitude
+
+FROM ${ref("distribution_centers")}

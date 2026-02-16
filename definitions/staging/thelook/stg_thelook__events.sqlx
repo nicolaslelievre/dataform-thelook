@@ -1,0 +1,42 @@
+config {
+  type: "view",
+  schema: "staging",
+  tags: ["staging", "thelook"],
+  description: "Cleaned and standardised website events. One row per event. Direct 1-to-1 with the source table. No joins.",
+  columns: {
+    event_id:        "Primary key. Renamed from id.",
+    user_id:         "Foreign key to stg_thelook__users. NULL for anonymous sessions.",
+    sequence_number: "Order of this event within the session.",
+    session_id:      "Groups events into a single browsing session.",
+    created_at:      "Timestamp when the event occurred.",
+    ip_address:      "IP address of the user at time of event.",
+    city:            "City derived from IP address.",
+    state:           "State derived from IP address.",
+    postal_code:     "Postal code derived from IP address.",
+    browser:         "Normalised browser name (lowercase).",
+    traffic_source:  "Normalised acquisition channel (lowercase).",
+    uri:             "The URI/page path visited.",
+    event_type:      "Normalised event type (lowercase): home, category, brand, product, cart, purchase, cancel."
+  },
+  assertions: {
+    uniqueKey: ["event_id"],
+    nonNull:   ["event_id", "session_id", "created_at", "event_type"]
+  }
+}
+
+SELECT
+  id                       AS event_id,
+  user_id,
+  sequence_number,
+  session_id,
+  created_at,
+  ip_address,
+  city,
+  state,
+  postal_code,
+  LOWER(browser)           AS browser,
+  LOWER(traffic_source)    AS traffic_source,
+  uri,
+  LOWER(event_type)        AS event_type
+
+FROM ${ref("events")}

@@ -1,0 +1,44 @@
+config {
+  type: "view",
+  schema: "staging",
+  tags: ["staging", "thelook"],
+  description: "Cleaned and standardised inventory items. One row per physical inventory unit. Direct 1-to-1 with the source table. No joins.",
+  columns: {
+    inventory_item_id:              "Primary key. Renamed from id.",
+    product_id:                     "Foreign key to stg_thelook__products.",
+    created_at:                     "Timestamp when the inventory item was received.",
+    sold_at:                        "Timestamp when the item was sold. NULL if unsold.",
+    cost:                           "Cost of this specific inventory unit at receipt.",
+    product_category:               "Denormalized product category (lowercase).",
+    product_name:                   "Denormalized product name.",
+    product_brand:                  "Denormalized product brand.",
+    product_retail_price:           "Denormalized retail price at time of inventory creation.",
+    product_department:             "Denormalized product department (lowercase).",
+    product_sku:                    "Denormalized product SKU.",
+    product_distribution_center_id: "Denormalized distribution center ID.",
+    is_sold:                        "TRUE when sold_at is not null."
+  },
+  assertions: {
+    uniqueKey: ["inventory_item_id"],
+    nonNull:   ["inventory_item_id", "product_id", "cost", "created_at"]
+  }
+}
+
+SELECT
+  id                              AS inventory_item_id,
+  product_id,
+  created_at,
+  sold_at,
+  cost,
+  LOWER(product_category)         AS product_category,
+  product_name,
+  product_brand,
+  product_retail_price,
+  LOWER(product_department)       AS product_department,
+  product_sku,
+  product_distribution_center_id,
+
+  -- Boolean convenience flag
+  sold_at IS NOT NULL             AS is_sold
+
+FROM ${ref("inventory_items")}
