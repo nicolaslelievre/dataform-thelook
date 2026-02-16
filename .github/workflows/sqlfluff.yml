@@ -19,14 +19,22 @@ jobs:
       - name: Install SQLFluff
         run: pip install -r requirements-dev.txt
 
+      - name: Get changed SQL files
+        id: changed-files
+        uses: tj-actions/changed-files@v46
+        with:
+          files: "**/*.sqlx"
+
       - name: Run SQLFluff
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          sqlfluff lint definitions/ \
+          sqlfluff lint ${{ steps.changed-files.outputs.all_changed_files }} \
             --format github-annotation \
             --annotation-level warning \
             > annotations.json || true
 
       - name: Annotate PR
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: yuzutech/annotations-action@v0.4.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
