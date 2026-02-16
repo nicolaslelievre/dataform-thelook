@@ -1,4 +1,3 @@
--- Usage in downstream models: ${ref("order_items")}
 
 config {
   type: "declaration",

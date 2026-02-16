@@ -22,7 +22,7 @@ Run `make help` to see all available commands.
 ```
 definitions/
 ├── sources/
-│   └── thelook/             # Source declarations (type: declaration)
+│   └── thelook/             # Source declarations (type: declaration) — named after physical BQ table
 ├── staging/
 │   └── thelook/             # Light cleaning, one view per source table
 ├── intermediate/             # Business logic joins and aggregations (views)

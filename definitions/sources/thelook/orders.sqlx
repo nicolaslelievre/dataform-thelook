@@ -1,7 +1,6 @@
 -- Source declaration for bigquery-public-data.thelook_ecommerce.orders
 -- File is prefixed src_thelook__ for organisation. The name field below
 -- sets both the BigQuery table reference and the Dataform ref() name.
--- Usage in downstream models: ${ref("orders")}
 
 config {
   type: "declaration",

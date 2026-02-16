@@ -1,4 +1,3 @@
--- Usage in downstream models: ${ref("events")}
 
 config {
   type: "declaration",

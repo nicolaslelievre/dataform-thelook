@@ -29,48 +29,41 @@ Rules governing how files and models are named across all layers.
 | Field | Value |
 |---|---|
 | **Code** | NM01 |
-| **Pattern** | `src_{source}__{table}` |
+| **Pattern** | `{table}` |
 | **Applies to** | Files in `definitions/sources/` |
 
 **Description**
 
-Source declaration files must be prefixed with `src_`, followed by the source system name, a double underscore (`__`), and the raw table name in snake_case. The prefix is a **file organisation convention only**.
+Source declaration files must be named after the physical BigQuery table they declare — no prefix. The `definitions/sources/{source}/` folder provides the namespace context.
 
-In Dataform, the `name:` field in the declaration config controls both the BigQuery table it resolves to and the `ref()` name used in downstream models. The `src_thelook__` prefix must not be used as the `name:` value — it must be set to the actual BigQuery table name (e.g. `name: "orders"`).
+In Dataform, the `name:` field in the declaration config controls both the BigQuery table it resolves to and the `ref()` name used in downstream models. File name and `name:` must match.
 
 ```sqlx
 config {
   type: "declaration",
   database: "bigquery-public-data",
   schema: "thelook_ecommerce",
-  name: "orders",             -- actual BQ table name + ref() name
+  name: "orders",   -- matches file name orders.sqlx and actual BQ table
   ...
 }
 ```
 
-Downstream models reference sources using the raw table name:
+Downstream models reference sources using the table name:
 ```
-${ref("orders")}              -- correct
-${ref("src_thelook__orders")} -- wrong, table does not exist in BQ
+${ref("orders")}
 ```
 
 **Examples**
 
 ```
-# Good — file uses src_thelook__ prefix, config name is raw table name
-src_thelook__orders.sqlx           (name: "orders")
-src_thelook__order_items.sqlx      (name: "order_items")
-src_thelook__distribution_centers.sqlx  (name: "distribution_centers")
+# Good — file name matches physical BQ table name
+definitions/sources/thelook/orders.sqlx
+definitions/sources/thelook/order_items.sqlx
+definitions/sources/thelook/distribution_centers.sqlx
 
-# Bad — missing src_ prefix
-orders.sqlx
-thelook_orders.sqlx
-
-# Bad — single underscore between source and table
-src_thelook_orders.sqlx
-
-# Bad — name: in config set to prefixed filename
-name: "src_thelook__orders"   -- resolves to non-existent BQ table
+# Bad — unnecessary prefix on source file
+src_thelook__orders.sqlx
+src_orders.sqlx
 ```
 
 ---

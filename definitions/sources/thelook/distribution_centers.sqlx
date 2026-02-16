@@ -1,4 +1,3 @@
--- Usage in downstream models: ${ref("distribution_centers")}
 
 config {
   type: "declaration",
