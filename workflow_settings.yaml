@@ -1,7 +1,7 @@
 # Dataform project configuration
 # Equivalent to dbt_project.yml in dbt
 
-defaultProject: your-gcp-project     # TODO: replace with your GCP project ID
+defaultProject: dataform-thelook     # TODO: replace with your GCP project ID
 defaultDataset: thelook_dataform      # fallback dataset if schema not overridden in model config
 defaultLocation: US
 dataformCoreVersion: 3.0.0

@@ -11,7 +11,7 @@ Use this as a checklist when bootstrapping a new Dataform project.
 | # | Decision | Area |
 |---|---|---|
 | 1 | [Node version pinned via nvm](#1-node-version-pinned-via-nvm) | Setup |
-| 2 | [Dataform CLI as local devDependency](#2-dataform-cli-as-local-devdependency) | Setup |
+| 2 | [Dataform CLI version pinned via Makefile](#2-dataform-cli-version-pinned-via-makefile) | Setup |
 | 3 | [workflow_settings.yaml over dataform.json](#3-workflow_settingsyaml-over-dataformjson) | Setup |
 | 4 | [Commit message linting via commitlint](#4-commit-message-linting-via-commitlint) | CI |
 
@@ -38,20 +38,25 @@ nvm use       # activates it in the current shell
 
 ---
 
-### 2. Dataform CLI as local devDependency
+### 2. Dataform CLI version pinned via Makefile
 
-**What:** `@dataform/cli` is installed as a `devDependency` in `package.json` rather than as a global npm package. All `dataform` commands are run via `npx dataform`.
+**What:** The Dataform CLI version is pinned in a `Makefile` variable and run via `npx @dataform/cli@<version>`. All Dataform commands are wrapped as `make` targets.
 
-**Why:** A global install (`npm install -g @dataform/cli`) ties the CLI version to whatever each developer happens to have installed. Moving it to `devDependencies` means the version is committed in `package.json`, locked in `package-lock.json`, and identical across all environments — local, CI, and production. This is the same principle as pinning `dbt-core` in a `requirements.txt`.
+**Why:** Dataform v3 does not allow `package.json` or `node_modules/` in the project root — both will cause compile to fail with an "unexpected file" error. Dataform v3 manages its own dependency resolution entirely through `workflow_settings.yaml` (`dataformCoreVersion`), with `@dataform/core` bundled in the CLI itself. There is no `dataform install` step needed.
+
+This means npm cannot be used in the Dataform project for the CLI. The solution is `npx @dataform/cli@<version>` which pulls the CLI from npx's global cache without touching the project directory. The version is pinned in one place (`Makefile`) and all commands are exposed as `make` targets — the equivalent of a Python `Makefile` or `justfile` wrapping a pinned interpreter.
 
 **How to use:**
 ```bash
-npm install            # installs both @dataform/core and @dataform/cli locally
-npx dataform compile   # runs the local CLI, not a global one
-npx dataform run
+make compile       # validates the DAG, no BigQuery calls
+make run           # runs all models
+make run-staging   # runs staging layer only
+make help          # lists all available targets
 ```
 
-**Files:** `package.json`
+To change the CLI version, update `DATAFORM_VERSION` in the `Makefile`. Also update `dataformCoreVersion` in `workflow_settings.yaml` to match.
+
+**Files:** `Makefile`
 
 ---
 

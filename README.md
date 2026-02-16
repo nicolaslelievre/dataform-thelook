@@ -8,11 +8,12 @@ Dataform transformation project for `bigquery-public-data.thelook_ecommerce`. Im
 
 1. Install nvm: https://github.com/nvm-sh/nvm
 2. Install and activate the pinned Node version: `nvm install && nvm use`
-3. Install project dependencies: `npm install`
-4. Set your GCP project in `workflow_settings.yaml` (`defaultProject`)
-5. Compile to verify the DAG: `npx dataform compile`
-6. Run all models: `npx dataform run`
-7. Run a single layer: `npx dataform run --tags staging`
+3. Set your GCP project in `workflow_settings.yaml` (`defaultProject`)
+4. Compile to verify the DAG: `make compile`
+5. Run all models: `make run`
+6. Run a single layer: `make run-staging`
+
+Run `make help` to see all available commands.
 
 ---
 
