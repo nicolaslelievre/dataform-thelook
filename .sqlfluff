@@ -1,0 +1,7 @@
+[sqlfluff]
+dialect = bigquery
+templater = dataform
+sql_file_exts = .sqlx
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower

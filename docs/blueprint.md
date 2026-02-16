@@ -14,6 +14,7 @@ Use this as a checklist when bootstrapping a new Dataform project.
 | 2 | [Dataform CLI version pinned via Makefile](#2-dataform-cli-version-pinned-via-makefile) | Setup |
 | 3 | [workflow_settings.yaml over dataform.json](#3-workflow_settingsyaml-over-dataformjson) | Setup |
 | 4 | [Commit message linting via commitlint](#4-commit-message-linting-via-commitlint) | CI |
+| 5 | [SQL linting via SQLFluff with PR annotations](#5-sql-linting-via-sqlfluff-with-pr-annotations) | CI |
 
 ---
 
@@ -119,4 +120,27 @@ jobs:
 Remove `continue-on-error` once the convention is well understood.
 
 **Files:** `commitlint.config.js`, `.github/workflows/commitlint.yml`
+
+---
+
+### 5. SQL linting via SQLFluff with PR annotations
+
+**What:** Every PR runs SQLFluff against all `.sqlx` files in `definitions/` and posts inline annotations on the diff using `yuzutech/annotations-action`.
+
+**Why:** SQL style issues are easier to catch and fix during code review when they appear as inline comments directly on the changed lines, rather than as a log to dig through. SQLFluff's `--format github-annotation` produces output compatible with the GitHub Checks API, and `yuzutech/annotations-action` posts them without requiring a custom PAT.
+
+**Key implementation details:**
+- `templater = dataform` in `.sqlfluff` — requires the `sqlfluff-templater-dataform` plugin (separate pip package). Handles the `config {}` block and `${ref(...)}` expressions in `.sqlx` files
+- `--annotation-level warning` — violations appear as warnings, not errors, so they don't block the merge (adjust to `failure` to enforce)
+- `|| true` on the lint step prevents the step from failing before annotations are posted
+- `definitions/sources/` is excluded via `.sqlfluffignore` — source declarations have no SQL body to lint
+- `checks: write` permission is required for the annotations action to post to the GitHub Checks API
+
+**Local setup:**
+```bash
+pip install -r requirements-dev.txt
+sqlfluff lint definitions/
+```
+
+**Files:** `.sqlfluff`, `.sqlfluffignore`, `requirements-dev.txt`, `.github/workflows/sqlfluff.yml`
 

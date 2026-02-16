@@ -1,0 +1,33 @@
+name: SQLFluff Lint
+
+on: [pull_request]
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  sqlfluff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install SQLFluff
+        run: pip install -r requirements-dev.txt
+
+      - name: Run SQLFluff
+        run: |
+          sqlfluff lint definitions/ \
+            --format github-annotation \
+            --annotation-level warning \
+            > annotations.json || true
+
+      - name: Annotate PR
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          input: annotations.json
