@@ -1,2 +1,6 @@
 node_modules/
 .dataform/
+
+# Dataform credentials — never commit
+# Use ADC locally: gcloud auth application-default login
+.df-credentials.json
