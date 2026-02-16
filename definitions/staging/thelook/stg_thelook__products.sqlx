@@ -1,3 +1,4 @@
+
 config {
   type: "view",
   schema: "staging",
@@ -5,11 +6,11 @@ config {
   description: "Cleaned and standardised products. One row per product. Direct 1-to-1 with the source table. No joins.",
   columns: {
     product_id:             "Primary key. Renamed from id.",
-    cost:                   "Cost of goods sold (COGS).",
+    cost:                   "Cost of goods sold (COGS). Defaults to 0 when NULL in source.",
     category:               "Normalised product category (lowercase).",
-    product_name:           "Product display name. Renamed from name to avoid ambiguity.",
+    product_name:           "Product display name. Renamed from name to avoid ambiguity. Defaults to 'Unknown' when NULL in source.",
     brand:                  "Brand name of the product.",
-    retail_price:           "Standard retail price.",
+    retail_price:           "Standard retail price. Defaults to 0 when NULL in source.",
     department:             "Normalised department (lowercase).",
     sku:                    "Stock keeping unit identifier.",
     distribution_center_id: "Foreign key to stg_thelook__distribution_centers."
@@ -22,11 +23,11 @@ config {
 
 SELECT
   id                    AS product_id,
-  cost,
+  COALESCE(cost, 0)         AS cost,
   LOWER(category)       AS category,
-  name                  AS product_name,
+  COALESCE(name, 'Unknown') AS product_name,
   brand,
-  retail_price,
+  COALESCE(retail_price, 0) AS retail_price,
   LOWER(department)     AS department,
   sku,
   distribution_center_id
