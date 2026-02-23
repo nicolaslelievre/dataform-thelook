@@ -1,0 +1,17 @@
+{
+  "name": "dataform-thelook",
+  "version": "0.1.0",
+  "description": "Blueprint and reference implementation for Dataform projects on BigQuery",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicolas-lelievre/dataform-thelook.git"
+  },
+  "keywords": [
+    "dataform",
+    "bigquery",
+    "analytics",
+    "data-modeling"
+  ],
+  "license": "MIT",
+  "private": true
+}
