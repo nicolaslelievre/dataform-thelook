@@ -7,7 +7,7 @@ config {
     distribution_center_id:   "Primary key. Renamed from id.",
     distribution_center_name: "Name of the distribution center. Renamed from name to avoid ambiguity.",
     latitude:                 "Geographic latitude of the distribution center.",
-    longitude:                "Geographic longitude of the distribution center."
+    longitude:                 "Geographic longitude of the distribution center."
   },
   assertions: {
     uniqueKey: ["distribution_center_id"],
