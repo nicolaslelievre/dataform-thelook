@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/nicolaslelievre/dataform-thelook/compare/v0.1.1...v0.1.2) (2026-02-24)
+
+
+### ✨ Features
+
+* add new thing in my model ([e808e34](https://github.com/nicolaslelievre/dataform-thelook/commit/e808e3435e280c62b4c228a550a80f60ed5ec16a))
+
 ## [0.1.1](https://github.com/nicolaslelievre/dataform-thelook/compare/v0.1.0...v0.1.1) (2026-02-23)
 
 
