@@ -11,7 +11,7 @@ config {
     cost:                           "Cost of this specific inventory unit at receipt.",
     product_category:               "Denormalized product category (lowercase).",
     product_name:                   "Denormalized product name.",
-    product_brand:                  "Denormalized product brand.",
+    product_brand:                 "Denormalized product brand.",
     product_retail_price:           "Denormalized retail price at time of inventory creation.",
     product_department:             "Denormalized product department (lowercase).",
     product_sku:                    "Denormalized product SKU.",
