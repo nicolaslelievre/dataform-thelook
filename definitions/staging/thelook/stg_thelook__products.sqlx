@@ -12,7 +12,7 @@ config {
     brand:                  "Brand name of the product.",
     retail_price:           "Standard retail price. Defaults to 0 when NULL in source.",
     department:             "Normalised department (lowercase).",
-    sku:                    "Stock keeping unit identifier.",
+    sku:                    "Stock keeping unit identifier.", 
     distribution_center_id: "Foreign key to stg_thelook__distribution_centers."
   },
   assertions: {
