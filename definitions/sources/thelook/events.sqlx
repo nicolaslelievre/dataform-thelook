@@ -2,7 +2,7 @@
 config {
   type: "declaration",
   database: "bigquery-public-data",
-  schema: "thelook_ecommerce",
+  schema: "thelook_ecommerce", 
   name: "events",
   description: "Raw website events table. One row per user event/interaction. Tracks the full clickstream funnel.",
   columns: {
