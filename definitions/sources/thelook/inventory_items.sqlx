@@ -1,7 +1,7 @@
 
 config {
   type: "declaration",
-  database: "bigquery-public-data",
+  database: "bigquery-public-data" 
   schema: "thelook_ecommerce",
   name: "inventory_items",
   description: "Raw inventory items table. One row per physical inventory unit. Tracks the cost basis at the time of sale.",
