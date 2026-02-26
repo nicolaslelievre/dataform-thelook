@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.3](https://github.com/nicolaslelievre/dataform-thelook/compare/v0.1.2...v0.1.3) (2026-02-26)
+
+
+### ✨ Features
+
+* add a feature commit ([d3bba39](https://github.com/nicolaslelievre/dataform-thelook/commit/d3bba39f1a9c0ad2933b6aa3d29dd9590169f28c))
+
+
+### 🐛 Bug Fixes
+
+* this is a fix ([ede9afd](https://github.com/nicolaslelievre/dataform-thelook/commit/ede9afdcdd1e8a61148e234d0c08c2b8db6f8f8d))
+
 ## [0.1.2](https://github.com/nicolaslelievre/dataform-thelook/compare/v0.1.1...v0.1.2) (2026-02-24)
 
 
