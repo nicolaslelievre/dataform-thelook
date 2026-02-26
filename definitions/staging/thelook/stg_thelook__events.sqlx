@@ -12,7 +12,7 @@ config {
     ip_address:      "IP address of the user at time of event.",
     city:            "City derived from IP address.",
     state:           "State derived from IP address.",
-    postal_code:     "Postal code derived from IP address.",
+    postal_code:      "Postal code derived from IP address.",
     browser:         "Normalised browser name (lowercase).",
     traffic_source:  "Normalised acquisition channel (lowercase).",
     uri:             "The URI/page path visited.",
