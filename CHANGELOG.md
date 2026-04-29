@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/nicolaslelievre/dataform-thelook/compare/v1.0.0...v2.0.0) (2026-04-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **DSH-134:** The column `id` in the customers model has been renamed to `customer_id` to align with our naming convention. Update all downstream refs accordingly.
+
+### ✨ Features
+
+* add column ([d84efb4](https://github.com/nicolaslelievre/dataform-thelook/commit/d84efb409eb497cbfb366018e09c76e0e58e2aca))
+* **DSH-134:** rename id column to customer_id ([e557f9f](https://github.com/nicolaslelievre/dataform-thelook/commit/e557f9f8e3ed1453a4cfae50ddf98df288979142))
+
 ## [1.0.0](https://github.com/nicolaslelievre/dataform-thelook/compare/v0.2.0...v1.0.0) (2026-02-26)
 
 
